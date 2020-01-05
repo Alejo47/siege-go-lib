@@ -12,6 +12,14 @@ type AccountStats struct {
 	Weapons   map[string]int
 	Operators map[string]OperatorStats
 }
+type GameSeasons struct {
+	Seasons map[string]GameSeason `json:"seasons"`
+	Latest  string                `json:"latestSeasons"`
+}
+type GameSeason struct {
+	Name       string `json:"name"`
+	Background string `json:"background"`
+}
 type RankedSeason struct {
 	Wins     float64 `json:"wins"`
 	Abandons float64 `json:"abandons"`

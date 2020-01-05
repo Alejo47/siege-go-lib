@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 )
 
 func GetUser(username string, platform string, client Client) (Profile, error) {
@@ -23,6 +25,25 @@ func (client Client) GetUser(username string, platform string) (Profile, error) 
 			return Profile{}, errors.New("User not found")
 		}
 	}
+}
+
+func GetSeasonsList() (map[string]GameSeason, error) {
+	httpClient := &http.Client{}
+
+	req, _ := http.NewRequest("GET", "https://game-rainbow6.ubi.com/assets/data/seasons.7985adeb.json", nil)
+
+	res, err := httpClient.Do(req)
+	if err != nil {
+		return GameSeasons{}.Seasons, err
+	}
+
+	body, _ := ioutil.ReadAll(res.Body)
+
+	var out GameSeasons
+	json.Unmarshal(body, &out)
+
+	return out.Seasons, nil
+
 }
 
 /*
