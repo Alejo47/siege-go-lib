@@ -45,3 +45,22 @@ func GetSeasonsList() (GameSeasons, error) {
 	return out, nil
 
 }
+
+func GetWeaponsList() (GameWeapons, error) {
+	httpClient := &http.Client{}
+
+	req, _ := http.NewRequest("GET", "https://game-rainbow6.ubi.com/assets/data/weapons.8a9b3d9e.json", nil)
+
+	res, err := httpClient.Do(req)
+	if err != nil {
+		return make(GameWeapons), err
+	}
+
+	body, _ := ioutil.ReadAll(res.Body)
+
+	var out GameWeapons
+	json.Unmarshal(body, &out)
+
+	return out, nil
+
+}

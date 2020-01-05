@@ -20,6 +20,14 @@ type GameSeason struct {
 	Name       string `json:"name"`
 	Background string `json:"background"`
 }
+type GameWeapons map[string]GameWeapon
+type GameWeapon struct {
+	Id   string `json:"id"`
+	Name struct {
+		Locale int `json:"oasisId"`
+	} `json:"name"`
+	Index int `json:"index"`
+}
 type RankedSeason struct {
 	Wins     float64 `json:"wins"`
 	Abandons float64 `json:"abandons"`
