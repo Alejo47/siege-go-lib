@@ -27,14 +27,14 @@ func (client Client) GetUser(username string, platform string) (Profile, error) 
 	}
 }
 
-func GetSeasonsList() (map[string]GameSeason, error) {
+func GetSeasonsList() (GameSeasons, error) {
 	httpClient := &http.Client{}
 
 	req, _ := http.NewRequest("GET", "https://game-rainbow6.ubi.com/assets/data/seasons.7985adeb.json", nil)
 
 	res, err := httpClient.Do(req)
 	if err != nil {
-		return GameSeasons{}.Seasons, err
+		return GameSeasons{}, err
 	}
 
 	body, _ := ioutil.ReadAll(res.Body)
@@ -42,7 +42,7 @@ func GetSeasonsList() (map[string]GameSeason, error) {
 	var out GameSeasons
 	json.Unmarshal(body, &out)
 
-	return out.Seasons, nil
+	return out, nil
 
 }
 
