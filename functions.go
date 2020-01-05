@@ -6,12 +6,12 @@ import (
 	"fmt"
 )
 
-func GetUser(username string, platform string, ticket UbiTicket) (Profile, error) {
-	return ticket.GetUser(username, platform)
+func GetUser(username string, platform string, client Client) (Profile, error) {
+	return client.GetUser(username, platform)
 }
-func (ticket UbiTicket) GetUser(username string, platform string) (Profile, error) {
+func (client Client) GetUser(username string, platform string) (Profile, error) {
 	uri := fmt.Sprintf("https://public-ubiservices.ubi.com/v2/profiles?nameOnPlatform=%s&platformType=%s", username, platform)
-	body, err := ticket.makeHTTPReq(uri)
+	body, err := client.makeHTTPReq(uri)
 	if err != nil {
 		return Profile{}, err
 	} else {
@@ -170,17 +170,17 @@ func (s OperatorStats) updateOperator(val string, n int) OperatorStats {
 	return s
 }
 
-func GetStats(profileId string, platform Platform, stats []string, ticket UbiTicket) (AccountStats, error) {
-	return ticket.GetStats(profileId, platform, stats)
+func GetStats(profileId string, platform Platform, stats []string, client Client) (AccountStats, error) {
+	return client.GetStats(profileId, platform, stats)
 }
-func (ticket UbiTicket) GetStats(profileId string, platform Platform, stats []string) (AccountStats, error) {
+func (client Client) GetStats(profileId string, platform Platform, stats []string) (AccountStats, error) {
 
 	uri := fmt.Sprintf("https://public-ubiservices.ubi.com/v1/spaces/%s/sandboxes/%s/playerstats2/statistics?populations=%s&statistics=%s",
 		platform.Space,
 		platform.Sandbox,
 		profileId,
 		strings.Join(stats, ","))
-	body, err := ticket.makeHTTPReq(uri)
+	body, err := client.makeHTTPReq(uri)
 	if err != nil {
 		return AccountStats{}, err
 	}
@@ -235,10 +235,10 @@ func (ticket UbiTicket) GetStats(profileId string, platform Platform, stats []st
 	return playerStats, nil
 }
 
-func GetRankedStats(profileId string, platform Platform, region string, season int, ticket UbiTicket) (RankedSeason, error) {
-	return ticket.GetRankedStats(profileId, platform, region, season)
+func GetRankedStats(profileId string, platform Platform, region string, season int, client Client) (RankedSeason, error) {
+	return client.GetRankedStats(profileId, platform, region, season)
 }
-func (ticket UbiTicket) GetRankedStats(profileId string, platform Platform, region string, season int) (RankedSeason, error) {
+func (client Client) GetRankedStats(profileId string, platform Platform, region string, season int) (RankedSeason, error) {
 	uri := fmt.Sprintf("https://public-ubiservices.ubi.com/v1/spaces/%s/sandboxes/%s/r6karma/players?board_id=pvp_ranked&profile_ids=%s&region_id=%s&season_id=%d",
 		platform.Space,
 		platform.Sandbox,
@@ -246,7 +246,7 @@ func (ticket UbiTicket) GetRankedStats(profileId string, platform Platform, regi
 		region,
 		season,
 	)
-	body, err := ticket.makeHTTPReq(uri)
+	body, err := client.makeHTTPReq(uri)
 	if err != nil {
 		return RankedSeason{}, err
 	}

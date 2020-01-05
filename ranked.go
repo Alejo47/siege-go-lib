@@ -6,7 +6,7 @@ import (
 	"strings"
 )
 
-func (ticket *UbiTicket) GetRankedInformation(season, region, platformId string, profiles ...string) map[string]RankedSeason {
+func (client *Client) GetRankedInformation(season, region, platformId string, profiles ...string) map[string]RankedSeason {
 
 	platform := PLATFORMS[platformId]
 
@@ -18,7 +18,7 @@ func (ticket *UbiTicket) GetRankedInformation(season, region, platformId string,
 		season,
 	)
 
-	body, err := ticket.makeHTTPReq(uri)
+	body, err := client.makeHTTPReq(uri)
 
 	if err != nil {
 		return nil

@@ -36,7 +36,7 @@ type SiegeOperator struct {
 	Name          string
 	OperatorStats OperatorStats
 }
-type UbiTicket struct {
+type Client struct {
 	Ticket     string `json:"ticket"`
 	Username   string `json:"username"`
 	Expiration string `json:"expiration"`

@@ -13,8 +13,8 @@ func GenToken(email string, password string) string {
 	return base64.StdEncoding.EncodeToString([]byte(email + ":" + password))
 }
 
-func GenerateTicket(token string) (*UbiTicket, error) {
-	client := &http.Client{}
+func GenerateTicket(token string) (*Client, error) {
+	httpClient := &http.Client{}
 
 	var uri string = "https://connect.ubi.com/ubiservices/v2/profiles/sessions"
 
@@ -22,35 +22,35 @@ func GenerateTicket(token string) (*UbiTicket, error) {
 	req.Header.Add("Authorization", fmt.Sprintf("Basic %s", token))
 	req.Header.Add("Ubi-AppId", "39baebad-39e5-4552-8c25-2c9b919064e2")
 	req.Header.Add("Content-Type", "application/json")
-	res, err := client.Do(req)
+	res, err := httpClient.Do(req)
 	if err != nil {
 		return nil, err
 	} else {
 		body, _ := ioutil.ReadAll(res.Body)
 
-		ticket := UbiTicket{}
-		if err := json.Unmarshal(body, &ticket); err != nil {
+		ubiClient := Client{}
+		if err := json.Unmarshal(body, &ubiClient); err != nil {
 			fmt.Println(err)
-			return &ticket, err
+			return &ubiClient, err
 		}
 
-		return &ticket, nil
+		return &ubiClient, nil
 	}
 }
 
-func (ticket *UbiTicket) Validate(token string) (*UbiTicket, error) {
+func (client *Client) Validate(token string) (*Client, error) {
 
-	if ticket.Expiration == "" {
-		newTicket, err := GenerateTicket(token)
+	if client.Expiration == "" {
+		newClient, err := GenerateTicket(token)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return newTicket, nil
+		return newClient, nil
 	}
 
-	expiration, err := time.Parse("2006-01-02T15:04:05Z", ticket.Expiration)
+	expiration, err := time.Parse("2006-01-02T15:04:05Z", client.Expiration)
 	current := time.Now()
 
 	if err != nil {
@@ -58,14 +58,14 @@ func (ticket *UbiTicket) Validate(token string) (*UbiTicket, error) {
 	}
 
 	if expiration.After(current) {
-		return ticket, nil
+		return client, nil
 	} else {
-		newTicket, err := GenerateTicket(token)
+		newClient, err := GenerateTicket(token)
 
 		if err != nil {
 			return nil, err
 		}
 
-		return newTicket, err
+		return newClient, err
 	}
 }
