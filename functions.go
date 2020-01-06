@@ -64,3 +64,22 @@ func GetWeaponsList() (GameWeapons, error) {
 	return out, nil
 
 }
+
+func GetOperatorsList() (GameOperators, error) {
+	httpClient := &http.Client{}
+
+	req, _ := http.NewRequest("GET", "https://game-rainbow6.ubi.com/assets/data/operators.9d15c77e.json", nil)
+
+	res, err := httpClient.Do(req)
+	if err != nil {
+		return make(GameOperators), err
+	}
+
+	body, _ := ioutil.ReadAll(res.Body)
+
+	var out GameOperators
+	json.Unmarshal(body, &out)
+
+	return out, nil
+
+}
