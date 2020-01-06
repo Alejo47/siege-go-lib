@@ -28,6 +28,20 @@ type GameWeapon struct {
 	} `json:"name"`
 	Index int `json:"index"`
 }
+type GameOperators map[string]GameOperator
+type GameOperator struct {
+	Name        string `json:"id"`
+	Role        string `json:"category"`
+	Code        string `json:"index"`
+	UniqueStats struct {
+		Pvp struct {
+			StatId string `json:"statisticId"`
+		} `json:"pvp"`
+		Pve struct {
+			StatId string `json:"statisticId"`
+		} `json:"pve"`
+	} `json:"uniqueStatistic"`
+}
 type RankedSeason struct {
 	Wins     float64 `json:"wins"`
 	Abandons float64 `json:"abandons"`
