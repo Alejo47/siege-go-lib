@@ -128,8 +128,9 @@ var GUN_CODES = map[string]string{
 	":5:": "Pistol",
 	":6:": "Shotgun",
 	":7:": "Machine Pistol",
+	":8:": "Shield",
+	":9:": "Launcher",
 	":B:": "Utility",
-	":9:": "Unknown",
 	":C:": "Unknown",
 }
 
