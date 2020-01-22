@@ -16,7 +16,7 @@ func GenToken(email string, password string) string {
 func GenerateTicket(token string) (*Client, error) {
 	httpClient := &http.Client{}
 
-	var uri string = "https://connect.ubi.com/ubiservices/v2/profiles/sessions"
+	var uri string = "https://public-ubiservices.ubi.com/v3/profiles/sessions"
 
 	req, _ := http.NewRequest("POST", uri, nil)
 	req.Header.Add("Authorization", fmt.Sprintf("Basic %s", token))
