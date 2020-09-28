@@ -1,4 +1,4 @@
-# siege-go-lib
+# siege-go-lib [Deprecated]
 
 ### Warning
 
